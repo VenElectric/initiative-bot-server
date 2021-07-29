@@ -1,11 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 const chalk = require('chalk');
-const firebase = require('firebase')
-require('firebase/firestore')
 const winston = require('winston');
 const { mod } = require('mathjs');
-
-const db = firebase.firestore();
+const {db} = require('../../processes/firebasesetup')
 
 module.exports = {
     name: 'cast',

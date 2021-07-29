@@ -1,11 +1,12 @@
-const winston = require('winston');
+const { ModuleResolutionKind } = require('typescript');
+const {createLogger, format, transports} = require('winston');
 const { combine, timestamp, label, printf } = format;
  
 const myFormat = printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
 });
  
-const logger = winston.createLogger({
+const logger = createLogger({
   level: 'info',
   format: myFormat,
   transports: [
@@ -13,8 +14,8 @@ const logger = winston.createLogger({
     // - Write all logs with level `error` and below to `error.log`
     // - Write all logs with level `info` and below to `combined.log`
     //
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
+    new transports.File({ filename: 'error.log', level: 'error' }),
+    new transports.File({ filename: 'combined.log' }),
   ],
 });
  
@@ -23,9 +24,9 @@ const logger = winston.createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple(),
+  logger.add(new transports.Console({
+    format: format.simple(),
   }));
 }
 
-export default logger
+module.exports = {logger}

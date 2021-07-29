@@ -1,11 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const chalk = require('chalk');
-const firebase = require('firebase')
-require('firebase/firestore')
-const winston = require('winston');
-const { mod } = require('mathjs');
-
-const db = firebase.firestore();
+const logger = require('../../logging/logger')
+const {db} = require('../../processes/firebasesetup')
 
 function parse_name(args){
     let name = ''
@@ -24,22 +20,22 @@ function parse_name(args){
 }
 
 module.exports = {
-    name:'add',
+    name:'add_pc',
     description:'Add in your initiative manually.',
     async execute(message,args){
         const initRef = db.collection('sessions')
-        var sessionid = message.channel.id;
+        let sessionid = message.channel.id;
 
-        var name = parse_name(args)
+        let name = parse_name(args)
         
-        var options = {
-            Name:name.trim(),
+        let options = {
+            name:name.trim(),
             init:Number(args.slice(-2,-1)),
             init_mod:Number(args.slice(-1)),
-            line_num:0,
+            line_order:0,
             cmark:false,
-            dmark:false,
-            rmark:false
+            status_effects:[],
+            npc:true
         }
         initRef.doc(sessionid).collection('initiative').doc(uuidv4())
         .set(options)
@@ -64,4 +60,5 @@ module.exports = {
             message.channel.send(error)
         })
     },
+    
 };

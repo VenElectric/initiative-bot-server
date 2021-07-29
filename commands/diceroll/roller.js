@@ -35,14 +35,14 @@ function parse_args(msg){
 module.exports = {
 	name: 'roller',
 	description: 'Roll the dice!',
-	aliases: ['/r', 'r'],
+	aliases: ['/r', 'r','r/'],
 	execute(message,args) {
 		console.log(args)
 		let parsed = parse_args(args)
 		console.log(parsed)
 		let comment = parsed.comment.trim()
 		let toroll = parsed.rollex
-		let myroll = new DiceRoll(toroll)
+			let myroll = new DiceRoll(toroll)
 		let finalroll = '```bash\n' + '"' + myroll + '"' + '```'
 		let finalcomment = '```ini\n' + '[' + comment + `]` + '```'
 		console.log(chalk.bgBlueBright(message.channel.id))

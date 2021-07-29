@@ -1,0 +1,2 @@
+firebase-adminsdk-0h13w@dungeon-bot-4e0e8.iam.gserviceaccount.com
+dungeon-bot-4e0e8-firebase-adminsdk-0h13w-271ec6c1ff

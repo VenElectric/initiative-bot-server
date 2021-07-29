@@ -1,16 +1,11 @@
-const winston = require('winston');
-const chalk = require('chalk');
-const firebase = require('firebase')
-require('firebase/firestore')
 const {DiceRoll,DiceRoller} = require('rpg-dice-roller');
 const Discord = require('discord.js');
+const {db} = require('../../processes/firebasesetup')
+const logger = require('../../logging/logger')
+const myredis = require("../../processes/redis-request");
 
-const db = firebase.firestore();
-
-const demoj = ":octagonal_sign:"
 const cemoj = ":bow_and_arrow:"
 const bemoj = ":black_medium_square:"
-const remoj = ":bangbang:"
 
 function rolld20(num){
     let arrd20 = []
@@ -25,8 +20,6 @@ function rolld20(num){
 function embed_set(embedarray){
     let name = ''
     let current = ''
-    let delay = ''
-    let ready = ''
     let count = 0
     let embed = new Discord.MessageEmbed()
     try{
@@ -34,23 +27,17 @@ function embed_set(embedarray){
             if (count < (embedarray.length-1)){
                 name += embedarray[e].Name + '\n';
                 current += embedarray[e].cmark ? cemoj + '\n': bemoj + '\n';
-                delay += embedarray[e].dmark ? demoj + '\n': bemoj + '\n';
-                ready += embedarray[e].rmark ? remoj + '\n': bemoj + '\n';
                 count += 1;
             }
             else{
                 name += embedarray[e].Name;
                 current += embedarray[e].cmark ? cemoj: bemoj;
-                delay += embedarray[e].dmark ? demoj: bemoj;
-                ready += embedarray[e].rmark? remoj: bemoj;
                 count += 1;
             }
         }
         embed.addFields(
             { name: 'Name', value: name,inline:true },
-            {name: 'Current', value: current,inline:true },
-            {name: 'Delay', value: delay,inline:true },
-            {name: 'Ready', value: ready,inline:true },
+            {name: 'Current', value: current,inline:true }
             )
     }
     catch(error){
@@ -68,7 +55,6 @@ module.exports = {
     const snapshot = await initRef.collection('initiative').get()
     let init_list = [];
     let on_deck = sortRef.data().on_deck
-    let is_sorted = sortRef.data().sorted
     snapshot.forEach(doc => {
         init_list.push({id: doc.id, ...doc.data()})
     })
@@ -91,8 +77,6 @@ module.exports = {
                 }
             }
         }
-        // console.log(dupes)
-        // console.log(dupes.length)
         try{
             if (dupes.length == 0){
                 console.log('Ok!')
@@ -122,6 +106,7 @@ module.exports = {
         }
         catch (error){
             console.log(error)
+            logger.error(error + " sort")
         }
         init_list.sort(function(a,b){
             if (a.init > b.init) return -1;
@@ -137,15 +122,18 @@ module.exports = {
             }
         }
         
-        init_list[on_deck].cmark = true;
+        // init_list[on_deck].cmark = true;
+
+        myredis.set_data(sessionid,{sorted:true,on_deck:on_deck,session_init:init_list})
         
             for (x in init_list){
                 var myref = db.collection('sessions').doc(sessionid).collection('initiative').doc(init_list[x].id)
-                myref.set({line_num:Number(init_list[x].line_num)},{ merge: true }).then(() =>{
+                myref.set({cmark:init_list[x].cmark,line_num:Number(init_list[x].line_num)},{ merge: true }).then(() =>{
                     console.log('success')
                 })
                 .catch((error)=> {
                     console.log(error)
+                    logger.error(error + " sort:set")
                 })
             }
         message.channel.send('Initiative has been sorted.')
