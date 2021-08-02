@@ -7,7 +7,7 @@ module.exports = {
 	name: "next",
 	description: "Move initiative forward.",
 	cooldown: 5,
-	async execute(message) {
+	async execute(message,io) {
 		var sessionid = message.channel.id;
 		let redis_data = await myredis.get_data(sessionid);
 		let total;

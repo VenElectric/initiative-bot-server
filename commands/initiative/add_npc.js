@@ -22,22 +22,28 @@ function parse_name(args){
 module.exports = {
     name:'add_pc',
     description:'Add in your initiative manually.',
-    async execute(message,args){
+    async execute(message,args,io){
         const initRef = db.collection('sessions')
         let sessionid = message.channel.id;
 
-        let name = parse_name(args)
+        let new_args = args[0].split(',')
+
+        let pcid = uuidv4()
         
-        let options = {
-            name:name.trim(),
-            init:Number(args.slice(-2,-1)),
-            init_mod:Number(args.slice(-1)),
+        var options = {
+            id: pcid,
+            name:new_args[0],
+            init:Number(new_args[1]),
+            init_mod:Number(new_args[2]),
             line_order:0,
             cmark:false,
             status_effects:[],
-            npc:true
+            npc:true,
+            color:getRandomColor()
         }
-        initRef.doc(sessionid).collection('initiative').doc(uuidv4())
+
+        io.to(sessionid).emit('client_add_init',{sort:false,initiative:options})
+        initRef.doc(sessionid).collection('initiative').doc(pcid)
         .set(options)
         .then(async ()=>{
             var sorted = await initRef.doc(sessionid).get()
@@ -59,6 +65,7 @@ module.exports = {
             console.log(chalk.bgRed('Error adding in initiative.' + error))
             message.channel.send(error)
         })
+   
     },
     
 };

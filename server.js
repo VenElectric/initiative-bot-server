@@ -9,8 +9,9 @@ const app = express();
 const server = http.createServer(app);
 const port = 8000;
 const {logger} = require('./logging/logger')
-const {add_init,write_all,get_all} = require('./processes/initstore')
-
+const init_p = require('./processes/initstore')
+const cemoj = ":bow_and_arrow:";
+const bemoj = ":black_medium_square:";
 
 const io = require("socket.io")(server, { cors: {
   origin: "http://localhost:3000",
@@ -45,7 +46,6 @@ for (const folder of commandFolders) {
 client.once('ready', () => {
   logger.info('Ready')
 	console.log('Ready!');
-  myredis.initialize_redis('12345678')
 });
 
 client.on('message', message => {
@@ -80,19 +80,19 @@ try {
     if (commandName.match(regex)){
       console.log("regex")
       logger.info(roller + ' if commandname ' + ' command ' + command)
-      client.commands.get('roller').execute(message,roller);
+      client.commands.get('roller').execute(message,roller,io);
     }
     // use command if matched
     if (command){
       logger.info(command + ' if command')
-      command.execute(message, args);
+      command.execute(message, args,io);
     }
     else {
       // if no prefix, no regex match, or no command match, try the roller (I.E. for things like 1+2+3+4, for ease of use)
       try{
         logger.info(args + ' else ' + message.content)
         console.log("else")
-        client.commands.get('roller').execute(message, message.content);
+        client.commands.get('roller').execute(message, message.content,io);
       }
       // if just a normal message or error, return. 
       catch(error){
@@ -119,111 +119,201 @@ io.on('connection', socket => {
   
   socket.on('create',function (room) {
     socket.join(room);
-    console.log(room,'room joined')
+    logger.info(room,'create room')
+    console.log(typeof(room),'create room')
+    // myredis.initialize_redis(room) this needs to be moved above
   });
 
+  socket.on('round_start',function(data){
+    let room = data.room
+    myredis.initialize_redis(room,key)
+
+    socket.broadcast.to(room).emit('client_roundstart',{sorted:true,ondeck:2,initiative:data.initiative})
+  })
+  socket.on('get_all_init',function(data){
+    let room = data.room
+    let init_data = myredis.get_all_init(room)
+    console.log(init_data)
+  })
+
+  socket.on('server_show_spell',async function(data){
+    let session_id = data.room
+    let spell_list = await init_p.get_all(String(session_id),'spells')
+		
+		let embed_fields = []
+
+		let spellembed = new Discord.MessageEmbed();
+		for (let x in spell_list){
+			console.log(spell_list[x])
+			embed_fields.push({ name: `${spell_list[x].name}`, value: `Effect: ${spell_list[x].effect}`, inline: false})
+		}
+		spellembed.setTitle('Spell List')
+		spellembed.addFields([...embed_fields])
+
+    logger.info(spellembed)
+		
+		client.channels.fetch(session_id).then(channel=> channel.send(spellembed))
+  })
+
+  socket.on('server_show_init',async function(data){
+    let session_id = data.room
+    let embedarray = await init_p.get_all(String(session_id),'initiative')
+		
+    let embed_fields = []
+    let embed = new Discord.MessageEmbed();
+  
+      for (let x in embedarray){
+        
+        embed_fields.push({ name: `${embedarray[x].name}`, value: `${embedarray[x].cmark ? cemoj:bemoj}`, inline: false})
+      }
+      embed.setTitle('Initiative List')
+      embed.addFields([...embed_fields])
+
+    logger.info(embed)
+		
+		client.channels.fetch(session_id).then(channel=> channel.send(embed))
+  })
+
   socket.on('server_init', function(data){
-    console.log('this is the io')
+    
     let room = data.room
     let initiative = data.initiative
     let sort = data.sort
-    socket.to(room).emit('client_init',{sort:sort,initiative:initiative});
+    let ondeck = data.ondeck
+    logger.info(room)
+    logger.info(data.initiative)
+    myredis.update_init(room,{data:{ondeck:ondeck,sort:sort},initiative:initiative})
+    socket.broadcast.to(room).emit('client_init',{sort:sort,initiative:initiative});
   })
+  
+  socket.on('server_add_init',function(data){
+    let room = data.room
+    let add_init_ = data.initiative
+    let sort = data.sort
+    myredis.add_new_init(room,data.initiative.id,add_init_)
+    let init_data = myredis.get_all_init(room)
+    console.log(init_data)
+    init_p.add_init(room,add_init_)
+    logger.info(room)
+    logger.info(room)
+    logger.info(data.initiative)
+    socket.broadcast.to(room).emit('client_add_init',{sort:sort,initiative:add_init_});
+  })
+
+  socket.on('server_update_init',function(data){
+    let room = data.room
+    let _init_line = data.initiative
+    let index = data.index
+    let init_id = data.id
+    let sort = data.sort
+    myredis.update_init(init_id,_init_line[index])
+    logger.info(room)
+    logger.info(data.initiative)
+    socket.broadcast.to(room).emit('client_update_init',{sort:sort,initiative:_init_line});
+  })
+
+  socket.on('server_remove_init',function(data){
+    console.log(data.room,'room')
+    let room = data.room
+    let id = data.id
+    myredis.remove_redinit(room,id)
+    init_p.delete_init(room,id)
+    logger.info(room)
+    logger.info(data)
+    console.log(typeof(room))
+    socket.broadcast.to(room).emit('client_remove_init',{room:room,id:id})
+  })
+
+  socket.on('server_add_spell',function(data){
+    let room = data.room
+    console.log(room,'roomie')
+    let new_spell = data.spell 
+    console.log(new_spell,'adding spell')
+    myredis.add_new_spell(room,new_spell)
+    init_p.add_spell(room,new_spell)
+    
+    socket.broadcast.to(room).emit('add_spell',{room:room,spell:new_spell})
+    logger.info(room)
+    logger.info(new_spell)
+    
+  })
+
+  socket.on('server_update_spell',function(data){
+    let room = data.room
+    let update_spell = data.spell 
+    myredis.update_spell(room,update_spell)
+    init_p.update_spell(room,update_spell)
+    logger.info(room)
+    logger.info(update_spell)
+    socket.broadcast.to(room).emit('client_update_spell',{room:room,spell:update_spell});
+  })
+
+  socket.on('server_del_spell',function(data){
+    let room = data.room
+    let id = data.spell.id
+    init_p.delete_spell(room,id)
+    myredis.delete_spell(room,id)
+    logger.info(room)
+    logger.info(data.spell)
+    socket.broadcast.to(room).emit('client_del_spell',{spell:data.spell});
+  })
+
+  socket.on('server_update_target',function(data){
+   
+    let room = data.room
+    let target = data.target
+    logger.info(room)
+    logger.info(target)
+    socket.broadcast.to(room).emit('client_update_target',{room:room,target:data.target,main:data.main,id:data.id});
+  })
+
+  socket.on('server_next',function(data){
+    let session_id = data.room
+    let next_turn = data.next
+    client.channels.fetch(session_id).then(channel=> channel.send("Current Turn: " + next_turn))
+  })
+  socket.on('server_prev',function(data){
+    let session_id = data.room
+    let next_turn = data.prev
+    client.channels.fetch(session_id).then(channel=> channel.send("Current Turn: " + next_turn))
+  })
+
 });
-
-app.get('/', (req, res) => {
-    // client.channels.fetch('723744588346556419').then(channel=> channel.send('Test'))
-    const {body} = document
-
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-    canvas.width = canvas.height = 100
-    
-    const tempImg = document.createElement('img')
-    tempImg.addEventListener('load', onTempImageLoad)
-    tempImg.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>em{color:red;}</style><em>I</em> lick <span>cheese</span></div></foreignObject></svg>')
-    
-    const targetImg = document.createElement('img')
-    body.appendChild(targetImg)
-    
-    function onTempImageLoad(e){
-      ctx.drawImage(e.target, 0, 0)
-      targetImg.src = canvas.toDataURL()
-    }
-  res.send('Hello World!')
-});
-
-app.post('/dungeon-bot/api/next',async (req,res) => {
-  let session_id = req.params.session_id
-  let init_list = await myredis.get_init(session_id)
-  client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
-})
-
-app.post('/dungeon-bot/api/:channelID/spells',(req,res) => {
-  client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
-})
-
-app.post('/dungeon-bot/api/update',async (req,res) => {
-  let session_id = req.params.session_id
-  let new_init = JSON.parse(req.body.data.body_data)
-  write_all(new_init,session_id)
-  res.status(200).send("Ok!")
-  // client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
-})
 
 app.get('/dungeon-bot/api/init_list',async (req,res) => {
   let session_id = req.query.session_id
   console.log(session_id)
-  let init_list = await get_all(session_id)
+  let init_list = await init_p.get_all(session_id,'initiative')
 
-  console.log(typeof(init_list))
   // client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
   res.status(200).send(init_list)
 })
 
-app.post('/dungeon-bot/api/add_init',async (req,res) => {
-  console.log(req.query.session_id)
-  console.log(req.body)
+app.get('/dungeon-bot/api/spell_list',async (req,res) => {
   let session_id = req.query.session_id
-  let new_init = JSON.parse(req.body.data.body_data)
-  console.log(new_init)
-  add_init(session_id,new_init)
-  myredis.add_new_init(session_id,new_init.id,new_init).then((response) =>{
-    let status_ = response
-    res.status(200).send(status_)
-    
-  })
+  console.log(session_id)
+  let init_list = await init_p.get_all(session_id,'spells')
 
+  // client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
+  res.status(200).send(init_list)
 })
+
 
 app.get('/dungeon-bot/api/roundstart',async (req,res) => {
   let session_id = req.query.session_id
-   let init_data = await get_all(session_id)
+  console.log(session_id)
+   let init_data = await init_p.get_all(session_id,'initiative')
    console.log(init_data)
   let sorted_list = sort_init(init_data,false)
-    write_all(session_id,sorted_list)
+  init_p.write_all(session_id,sorted_list)
+    
     myredis.update_init(session_id,{data:{ondeck:2,sorted:true},initiative:sorted_list})
+    client.channels.fetch(session_id).then(channel=> channel.send('Rounds have started'))
     res.status(200).send(sorted_list)
   
-    // myredis.get_init(session_id).then(function(data) {
-    //   console.trace(data)
-    //   console.log('data is undefined?')
-    //   let sorted_list = sort_init(data,false)
-    //   res.status(200).send(sorted_list)
-    // }).catch(error => {
-    //   console.log(error)
-    // })
-  
-  // client.channels.fetch(session_id).then(channel=> channel.send('Test'))
+
 })
 
-app.post('/dungeon-bot/api/:channelID/roll',(req,res) => {
-  client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
-})
-
-app.post('/dungeon-bot/api/:channelID/status_effects',(req,res) => {
-  client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
-})
 
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)

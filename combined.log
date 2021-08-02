@@ -235,3 +235,519 @@ undefined info: Ready
 undefined info: Ready
 undefined info: Ready
 undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: args !prefixgetlink
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: 12345678
+undefined info: args !prefixadd,Meridia,22,3
+undefined info: Meridia,22,3 else add Meridia,22,3
+undefined info: Error: Missing argument "notation" error add Meridia,22,3
+undefined info: args !prefixgetlink
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: args !prefixadd_pc,Meridia,22,3
+undefined info: Ready
+undefined info: args !prefixadd_pc,Meridia,22,3
+undefined info: Ready
+undefined info: args !prefixadd_pc,Meridia,22,3
+undefined info: Ready
+undefined info: args !prefixadd_pc,Meridia,22,3
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: args !prefixadd_pc,Hamish,22,3
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: args !prefixadd_pc,Orc,22,3
+undefined info: Ready
+undefined info: args !prefixadd_pc,Orc,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixadd_pc,Tammy,22,3
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: args !prefixadd_pc,Tommy,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: args !prefixadd_pc,Tommy,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: Ready
+undefined info: args !prefixadd_pc,To,22,3
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: args !prefixadd_pc,Tommy,22,3
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: Ready
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined warn: TypeError Cannot read property 'indexOf' of undefined
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 12345678
+undefined info: [object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object]
+undefined info: Ready
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixspells
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixroundstart
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixroundstart
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixroundstart
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: args !prefixroundstart
+undefined info: [object Object] if command
+undefined info: Ready
+undefined info: args !prefixroundstart
+undefined info: [object Object] if command
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object],[object Object],[object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: [object Object],[object Object],[object Object]
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: [object Object],[object Object],[object Object]
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: Ready
+undefined info: 723744588346556419
+undefined info: [object Object]
