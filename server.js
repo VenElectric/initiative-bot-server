@@ -58,60 +58,55 @@ client.on('message', message => {
   let roller;
   if (!prefix){
     args = message.content.trim().split(/ +/);
-    logger.info('args !prefix' + args)
+    logger.info('No Prefix, so roller is being used: ' + message.content + ' Here are the args: ' + args)
     roller = message.content.trim().split(/ +/);
   }
   else{
     args = message.content.slice(prefix.length).trim().split(/ +/);
-    logger.info('args else ' + args)
+    logger.info('Else there is a prefix: ' + args)
   }
 	
   
 	const commandName = args.shift().toLowerCase();
 
 const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-// if (!command && !commandName.match(regex)) {
-//   return
-// };
   
 try {
   // Roll dice if regex is matched 
     if (commandName.match(regex)){
       console.log("regex")
-      logger.info(roller + ' if commandname ' + ' command ' + command)
+      logger.info(roller + ' regex matched for roller')
       client.commands.get('roller').execute(message,roller,io);
     }
     // use command if matched
     if (command){
-      logger.info(command + ' if command')
+      logger.info(commandName + ' command name matched')
       command.execute(message, args,io);
     }
     else {
       // if no prefix, no regex match, or no command match, try the roller (I.E. for things like 1+2+3+4, for ease of use)
       try{
-        logger.info(args + ' else ' + message.content)
+        logger.info('Trying roller for: ' + args + '/with message content:' + message.content)
         console.log("else")
         client.commands.get('roller').execute(message, message.content,io);
       }
       // if just a normal message or error, return. 
       catch(error){
-        console.log(error + 'try catch')
-        logger.info(error + ' error ' + message.content)
+        logger.info(error + ' error with message content: ' + message.content)
         return
       }
     }
 
     // error with roller command
   } catch (error) {
-    logger.debug(error)
-    logger.debug(commandName)
-    logger.debug(message)
+    logger.warn(error)
+    logger.warn(commandName)
+    logger.warn(message.content)
     message.reply('there was an error trying to execute that command!');
   }
 })
 
-client.login(token);
+// client.login(token);
 
 
 
@@ -120,20 +115,18 @@ io.on('connection', socket => {
   socket.on('create',function (room) {
     socket.join(room);
     logger.info(room,'create room')
-    console.log(typeof(room),'create room')
-    // myredis.initialize_redis(room) this needs to be moved above
   });
 
   socket.on('round_start',function(data){
     let room = data.room
     myredis.initialize_redis(room,key)
-
+    logger.info('Round Start',room)
     socket.broadcast.to(room).emit('client_roundstart',{sorted:true,ondeck:2,initiative:data.initiative})
   })
   socket.on('get_all_init',function(data){
     let room = data.room
     let init_data = myredis.get_all_init(room)
-    console.log(init_data)
+    logger.info(init_data)
   })
 
   socket.on('server_show_spell',async function(data){
@@ -194,9 +187,8 @@ io.on('connection', socket => {
     let init_data = myredis.get_all_init(room)
     console.log(init_data)
     init_p.add_init(room,add_init_)
-    logger.info(room)
-    logger.info(room)
-    logger.info(data.initiative)
+    logger.info(room,'server add init')
+    logger.info(data.initiative,'server add init')
     socket.broadcast.to(room).emit('client_add_init',{sort:sort,initiative:add_init_});
   })
 
@@ -206,9 +198,11 @@ io.on('connection', socket => {
     let index = data.index
     let init_id = data.id
     let sort = data.sort
+    let ondeck = data.on_deck
     myredis.update_init(init_id,_init_line[index])
-    logger.info(room)
-    logger.info(data.initiative)
+    init_p.write_all(room,_init_line,sort,ondeck)
+    logger.info(room,'server_update_init')
+    logger.info(data.initiative,'server_update_init')
     socket.broadcast.to(room).emit('client_update_init',{sort:sort,initiative:_init_line});
   })
 
@@ -218,21 +212,20 @@ io.on('connection', socket => {
     let id = data.id
     myredis.remove_redinit(room,id)
     init_p.delete_init(room,id)
-    logger.info(room)
-    logger.info(data)
-    console.log(typeof(room))
+    logger.info(room,'server_remove_init')
+    logger.info(data,'server_remove_init')
     socket.broadcast.to(room).emit('client_remove_init',{room:room,id:id})
   })
 
   socket.on('server_add_spell',function(data){
     let room = data.room
-    console.log(room,'roomie')
     let new_spell = data.spell 
-    console.log(new_spell,'adding spell')
+
     myredis.add_new_spell(room,new_spell)
     init_p.add_spell(room,new_spell)
     
     socket.broadcast.to(room).emit('add_spell',{room:room,spell:new_spell})
+
     logger.info(room)
     logger.info(new_spell)
     
@@ -243,8 +236,8 @@ io.on('connection', socket => {
     let update_spell = data.spell 
     myredis.update_spell(room,update_spell)
     init_p.update_spell(room,update_spell)
-    logger.info(room)
-    logger.info(update_spell)
+    logger.info(room,'server_update_spell')
+    logger.info(update_spell,'server_update_spell')
     socket.broadcast.to(room).emit('client_update_spell',{room:room,spell:update_spell});
   })
 
@@ -253,8 +246,8 @@ io.on('connection', socket => {
     let id = data.spell.id
     init_p.delete_spell(room,id)
     myredis.delete_spell(room,id)
-    logger.info(room)
-    logger.info(data.spell)
+    logger.info(room,'server_del_spell')
+    logger.info(data.spell,'server_del_spell')
     socket.broadcast.to(room).emit('client_del_spell',{spell:data.spell});
   })
 
@@ -262,54 +255,69 @@ io.on('connection', socket => {
    
     let room = data.room
     let target = data.target
-    logger.info(room)
-    logger.info(target)
+    logger.info(room,'server_update_target')
+    logger.info(target,'server_update_target')
     socket.broadcast.to(room).emit('client_update_target',{room:room,target:data.target,main:data.main,id:data.id});
   })
 
   socket.on('server_next',function(data){
     let session_id = data.room
     let next_turn = data.next
+    logger.info(next_turn,'server_next')
     client.channels.fetch(session_id).then(channel=> channel.send("Current Turn: " + next_turn))
   })
   socket.on('server_prev',function(data){
     let session_id = data.room
     let next_turn = data.prev
+    logger.info(next_turn,'server_prev')
     client.channels.fetch(session_id).then(channel=> channel.send("Current Turn: " + next_turn))
+  })
+
+  socket.on('error_reporting',function(data){
+    let session_id = data.room
+    let error_name = data.error_name
+    let error_msg = data.error_msg
+    let tracer = data.tracer
+    logger.warn(`SessionID: ${session_id} Error: ${error_name} At: ${tracer} Message: ${error_msg}`)
+  })
+
+  socket.on('logger_info',function(data){
+    let session_id = data.room
+    let data_msg = data.data_msg
+    let tracer = data.tracer
+    logger.info(`SessionID: ${session_id} Message: ${data_msg} At: ${tracer}`)
   })
 
 });
 
 app.get('/dungeon-bot/api/init_list',async (req,res) => {
   let session_id = req.query.session_id
-  console.log(session_id)
+  logger.info(session_id)
   let init_list = await init_p.get_all(session_id,'initiative')
-
-  // client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
-  res.status(200).send(init_list)
+  let initial = await init_p.get_initial(session_id)
+  res.status(200).send(JSON.stringify({init_list:init_list,initial:initial}))
 })
 
 app.get('/dungeon-bot/api/spell_list',async (req,res) => {
   let session_id = req.query.session_id
-  console.log(session_id)
+  logger.info(session_id)
   let init_list = await init_p.get_all(session_id,'spells')
-
-  // client.channels.fetch(req.params.channelID).then(channel=> channel.send('Test'))
   res.status(200).send(init_list)
 })
 
 
 app.get('/dungeon-bot/api/roundstart',async (req,res) => {
   let session_id = req.query.session_id
-  console.log(session_id)
-   let init_data = await init_p.get_all(session_id,'initiative')
-   console.log(init_data)
+  let init_data = await init_p.get_all(session_id,'initiative')
   let sorted_list = sort_init(init_data,false)
   init_p.write_all(session_id,sorted_list)
+
+  logger.info(session_id,'roundstart api')
+  logger.info(init_data,'roundstart api')
     
-    myredis.update_init(session_id,{data:{ondeck:2,sorted:true},initiative:sorted_list})
-    client.channels.fetch(session_id).then(channel=> channel.send('Rounds have started'))
-    res.status(200).send(sorted_list)
+  myredis.update_init(session_id,{data:{ondeck:2,sorted:true},initiative:sorted_list})
+  client.channels.fetch(session_id).then(channel=> channel.send('Rounds have started'))
+  res.status(200).send(sorted_list)
   
 
 })

@@ -1,8 +1,7 @@
 const chalk = require("chalk");
 const { db } = require("../../processes/firebasesetup");
-const logger = require("../../logging/logger");
 const myredis = require("../../processes/redis-request");
-
+const {logger} = require('../../logging/logger')
 module.exports = {
 	name: "next",
 	description: "Move initiative forward.",

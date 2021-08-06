@@ -1,5 +1,6 @@
 const {DiceRoll,DiceRoller} = require('rpg-dice-roller');
 const {evaluate} = require('mathjs')
+const {logger} = require('../../logging/logger')
 
 module.exports = {
 	name: 'maths',

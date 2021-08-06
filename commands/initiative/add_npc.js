@@ -1,36 +1,22 @@
 const { v4: uuidv4 } = require('uuid');
 const chalk = require('chalk');
-const logger = require('../../logging/logger')
+const {logger} = require('../../logging/logger')
 const {db} = require('../../processes/firebasesetup')
-
-function parse_name(args){
-    let name = ''
-    let length = args.length;
-	for (i = 0; i < length; i++){
-       
-        if (args[i].match(/[1-9]+/)){
-            console.log('number')
-        }
-        else{
-            name += args[i] + ' '
-            console.log(name)
-        }
-    }
-    return name;
-}
+const init_funcs = require('../../processes/init_functions')
+const initRef = db.collection('sessions')
 
 module.exports = {
     name:'add_pc',
     description:'Add in your initiative manually.',
     async execute(message,args,io){
-        const initRef = db.collection('sessions')
+        
         let sessionid = message.channel.id;
 
         let new_args = args[0].split(',')
 
         let pcid = uuidv4()
         
-        var options = {
+        let options = {
             id: pcid,
             name:new_args[0],
             init:Number(new_args[1]),
@@ -39,7 +25,7 @@ module.exports = {
             cmark:false,
             status_effects:[],
             npc:true,
-            color:getRandomColor()
+            color:init_funcs.getRandomColor()
         }
 
         io.to(sessionid).emit('client_add_init',{sort:false,initiative:options})

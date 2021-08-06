@@ -1,7 +1,7 @@
 const {DiceRoll,DiceRoller} = require('rpg-dice-roller');
 const Discord = require('discord.js');
 const {db} = require('../../processes/firebasesetup')
-const logger = require('../../logging/logger')
+const {logger} = require('../../logging/logger')
 const myredis = require("../../processes/redis-request");
 
 const cemoj = ":bow_and_arrow:"

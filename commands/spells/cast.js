@@ -3,6 +3,9 @@ const chalk = require('chalk');
 const winston = require('winston');
 const { mod } = require('mathjs');
 const {db} = require('../../processes/firebasesetup')
+const {logger} = require('../../logging/logger')
+
+//slated for legacy?
 
 module.exports = {
     name: 'cast',

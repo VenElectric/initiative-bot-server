@@ -1,4 +1,5 @@
 const {db} = require('../../processes/firebasesetup')
+const {logger} = require('../../logging/logger')
 
 module.exports = {
     name:'clearsessionlist',
