@@ -1,8 +1,8 @@
 const redis = require("redis");
 const { redis_token } = require("../config.json");
 const redisClient = redis.createClient({
-  host: "redis-15984.c280.us-central1-2.gce.cloud.redislabs.com",
-  port: "15984",
+  host: "",
+  port: "",
   password: redis_token,
 });
 
