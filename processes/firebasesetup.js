@@ -5,7 +5,7 @@ const process = require('process');
 let serviceAccount = JSON.parse(Buffer.from(String(process.env.GOOGLE_CONFIG), 'base64').toString('ascii'))
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(JSON.parse(Buffer.from(String(process.env.GOOGLE_CONFIG), 'base64').toString('ascii')))
 })
 
 const db = admin.firestore()
