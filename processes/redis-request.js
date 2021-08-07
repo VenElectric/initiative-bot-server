@@ -1,6 +1,6 @@
 const redis = require("redis");
 // const { redis_token,redis_url } = require("../config.json");
-const process = require('process');
+
 
 let redis_token = process.env.redistoken
 let redis_url = process.env.redisurl

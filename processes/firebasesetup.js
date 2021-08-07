@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const process = require('process');
+
 // let serviceAccount = require("../firebase.json");
 
 const googleServiceAccountCreds = process.env.GOOGLE_CONFIG;
