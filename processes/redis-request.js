@@ -1,5 +1,5 @@
 const redis = require("redis");
-const { redis_token } = require("../config.json");
+const { redis_token } = require("../firebase.json");
 const redisClient = redis.createClient({
   host: "",
   port: "",
