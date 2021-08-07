@@ -6,7 +6,7 @@ admin.initializeApp({
   credential: admin.credential.cert({
       projectId: "dungeon-bot-4e0e8", 
       clientEmail: process.env.clientemail, 
-      privateKey: process.env.gprivatekey.replace(/\\n/g, '\n')
+      privateKey: process.env.GOOGLE_CONFIG.replace(/\\n/g, '\n')
   }),
 })
 
