@@ -1,10 +1,10 @@
 /node_modules
 /package-lock.json
 config.json
-/processes/firebasesetup.js
 /commands/spells/cast.js
 tsconfig.json
 /logs
 text.txt
 empty.ts
+test.js
 firebase.json

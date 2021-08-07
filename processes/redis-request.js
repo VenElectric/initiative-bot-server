@@ -1,5 +1,7 @@
 const redis = require("redis");
-const { redis_token,redis_url } = require("../config.json");
+// const { redis_token,redis_url } = require("../config.json");
+let redis_token = procces.env.redistoken
+let redis_url = process.env.redisurl
 const redisClient = redis.createClient({
   host: redis_url,
   port: "15984",
@@ -47,12 +49,6 @@ async function remove_redinit(projectkey, key) {
     }
   }
 }
-
-// async function set_data(projectkey, key, data) {
-//   redisClient.rpush(projectkey, JSON.stringify(key));
-//   redisClient.set_expire(projectkey, def_exp);
-//   redisClient.setex(key, def_exp, JSON.stringify(data));
-// }
 
 async function update_init(key, data) {
   console.log(key);
