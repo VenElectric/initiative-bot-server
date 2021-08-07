@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const express = require('express')
-// const {token} = require('./config.json');
+const {token} = require('./config.json');
 const myredis = require('./processes/redis-request')
 const {sort_init} = require('./processes/init_functions')
 const http = require('http')
@@ -108,6 +108,8 @@ try {
 })
 
 client.login(process.env.discordtoken);
+
+// client.login(token)
 
 
 
