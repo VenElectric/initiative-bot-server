@@ -5,7 +5,11 @@ const process = require('process');
 let serviceAccount = JSON.parse(Buffer.from(process.env.GOOGLE_CONFIG, 'base64').toString('ascii'))
 
 admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(Buffer.from(process.env.GOOGLE_CONFIG, 'base64').toString('ascii')))
+  credential: admin.credential.cert({
+      projectId: "dungeon-bot-4e0e8", 
+      clientEmail: process.env.clientemail, 
+      privateKey: process.env.gprivatekey.replace(/\\n/g, '\n')
+  }),
 })
 
 const db = admin.firestore()
