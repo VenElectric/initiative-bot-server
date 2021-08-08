@@ -6,7 +6,7 @@ const http = require('http')
 require('firebase/firestore')
 const app = express();
 const server = http.createServer(app);
-const port = 8000;
+const port = process.env.PORT
 const {logger} = require('./logging/logger')
 const init_p = require('./processes/initstore')
 const cemoj = ":bow_and_arrow:";
