@@ -111,12 +111,17 @@ client.login(process.env.discordtoken);
 // client.login(token)
 process.on('unhandledPromiseRejection', error => {
   client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
-  console.log('Test error:', error);
+  
 });
 
   process.on('invalidArgumentMessage', error => {
     client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
-    console.log('Test error:', error);
+    
+  });
+
+  process.on('TypeError', error => {
+    client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
+   
   });
 
 io.on('connection', socket => {
@@ -252,7 +257,7 @@ io.on('connection', socket => {
 
   socket.on('server_del_spell',function(data){
     let room = data.room
-    let id = data.spell.id
+    let id = data.id
     init_p.delete_spell(room,id)
     myredis.delete_spell(room,id)
     logger.info(room,'server_del_spell')
