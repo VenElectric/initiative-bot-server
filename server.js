@@ -13,7 +13,7 @@ const cemoj = ":bow_and_arrow:";
 const bemoj = ":black_medium_square:";
 
 const io = require("socket.io")(server, { cors: {
-  origin: "dungeon-bot.app",
+  origin: "https://dungeon-bot.app",
   methods: ["GET", "POST"],
 }})
 
@@ -26,7 +26,7 @@ client.commands = new Discord.Collection();
 const commandFolders = fs.readdirSync('./commands');
 
 app.use(require('cors')({
-  origin: 'dungeon-bot.app',
+  origin: 'https://dungeon-bot.app',
   methods: ['GET','POST']
 }));
 
