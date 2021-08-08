@@ -262,7 +262,7 @@ io.on('connection', socket => {
     myredis.delete_spell(room,id)
     logger.info(room,'server_del_spell')
     logger.info(data.spell,'server_del_spell')
-    socket.broadcast.to(room).emit('client_del_spell',{spell:data.spell});
+    socket.broadcast.to(room).emit('client_del_spell',{spell:data.id});
   })
 
   socket.on('server_update_target',function(data){
