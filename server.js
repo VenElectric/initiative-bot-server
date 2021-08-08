@@ -11,6 +11,7 @@ const {logger} = require('./logging/logger')
 const init_p = require('./processes/initstore')
 const cemoj = ":bow_and_arrow:";
 const bemoj = ":black_medium_square:";
+const {process} = require('process')
 
 const io = require("socket.io")(server, { cors: {
   origin: "https://dungeon-bot.app",
@@ -108,8 +109,15 @@ try {
 client.login(process.env.discordtoken);
 
 // client.login(token)
+process.on('unhandledPromiseRejection', error => {
+  client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
+  console.log('Test error:', error);
+});
 
-
+  process.on('invalidArgumentMessage', error => {
+    client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
+    console.log('Test error:', error);
+  });
 
 io.on('connection', socket => {
   
