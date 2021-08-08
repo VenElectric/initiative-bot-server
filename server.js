@@ -73,7 +73,7 @@ const command = client.commands.get(commandName) || client.commands.find(cmd => 
 try {
   // Roll dice if regex is matched 
     if (commandName.match(regex)){
-      console.log("regex")
+     
       logger.info(roller + ' regex matched for roller')
       client.commands.get('roller').execute(message,roller,io);
     }
@@ -86,7 +86,7 @@ try {
       // if no prefix, no regex match, or no command match, try the roller (I.E. for things like 1+2+3+4, for ease of use)
       try{
         logger.info('Trying roller for: ' + args + '/with message content:' + message.content)
-        console.log("else")
+        
         client.commands.get('roller').execute(message, message.content,io);
       }
       // if just a normal message or error, return. 
