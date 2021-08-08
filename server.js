@@ -310,8 +310,9 @@ app.get('/dungeon-bot/api/spell_list',async (req,res) => {
 app.get('/dungeon-bot/api/roundstart',async (req,res) => {
   let session_id = req.query.session_id
   let init_data = await init_p.get_all(session_id,'initiative')
+  let get_initial = await init_p.get_initial(session_id)
   let sorted_list = sort_init(init_data,false)
-  init_p.write_all(session_id,sorted_list)
+  init_p.write_all(session_id,sorted_list,get_initial.sort,get_initial.on_deck)
 
   logger.info(session_id,'roundstart api')
   logger.info(init_data,'roundstart api')
