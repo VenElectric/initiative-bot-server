@@ -4,6 +4,7 @@ const {logger} = require('../../logging/logger')
 const {db} = require('../../processes/firebasesetup')
 const init_funcs = require('../../processes/init_functions')
 const initRef = db.collection('sessions')
+const {warn_log,info_log} = require('../../logging/firebaselogging')
 
 module.exports = {
     name:'add_pc',
@@ -25,31 +26,30 @@ module.exports = {
             cmark:false,
             status_effects:[],
             npc:true,
-            color:init_funcs.getRandomColor()
         }
 
         io.to(sessionid).emit('client_add_init',{sort:false,initiative:options})
         initRef.doc(sessionid).collection('initiative').doc(pcid)
         .set(options)
         .then(async ()=>{
-            var sorted = await initRef.doc(sessionid).get()
+            let sorted = await initRef.doc(sessionid).get()
             if (sorted){
                 initRef.doc(sessionid).set({sorted:false},{merge:true}).then(()=>{
-                    console.log(chalk.bgBlue('Initiative Added Success'))
+                    info_log(sessionid,'Init Added succss',options)
                     message.channel.send('Init Added. Please use the sort command to sort initiative.')
                 })
                 .catch((error) => {
-                    console.log(chalk.bgRed('Error adding in initiative.' + error))
-                    message.channel.send(error)
+                    warn_log(sessionid,'Error adding in initiative',{error:error,stack:error.stack,options:options,args:args})
+                    message.channel.send('Error adding in initiative. Please try again')
                 })
             }
             else{
-                console.log(chalk.bgBlue('Initiative Added Success'))
+                info_log(sessionid,'Init Added succss',options)
                 message.channel.send('Init Added')
             }
         }).catch((error) => {
-            console.log(chalk.bgRed('Error adding in initiative.' + error))
-            message.channel.send(error)
+            warn_log(sessionid,'Error adding in initiative',{error:error,stack:error.stack,options:options,args:args})
+            message.channel.send('Error adding in initiative. Please try again.')
         })
    
     },

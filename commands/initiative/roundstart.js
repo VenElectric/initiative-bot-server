@@ -5,7 +5,7 @@ const {db} = require('../../processes/firebasesetup')
 const {logger} = require('../../logging/logger')
 const init_funcs = require('../../processes/init_functions')
 const initstore = require('../../processes/initstore')
-
+const {warn_log,info_log} = require('../../logging/firebaselogging')
 const demoj = ":octagonal_sign:";
 const cemoj = ":bow_and_arrow:";
 const bemoj = ":black_medium_square:";

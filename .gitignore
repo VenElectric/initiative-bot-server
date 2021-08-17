@@ -9,3 +9,5 @@ empty.ts
 test.js
 firebase.json
 googlecred.txt
+.env
+/commands/devfolder

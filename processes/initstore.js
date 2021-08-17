@@ -55,9 +55,10 @@ async function get_initial(session_id){
   let snapshot = await initRef.get();
 
   if (snapshot.data() !== undefined){
-    let ondeck = snapshot.data().on_deck
-    let sorted = snapshot.data().sorted
-    return {on_deck:ondeck,sort:sorted}
+    let ondeck = snapshot.data().on_deck ? snapshot.data().on_deck: 0
+    let sorted = snapshot.data().sorted ? snapshot.data().sorted: false
+    let channel_id = snapshot.data().channel_id
+    return {on_deck:ondeck,sort:sorted,channel_id:channel_id}
   }
   else{
     return {on_deck:0,sort:false}

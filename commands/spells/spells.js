@@ -1,6 +1,7 @@
 const init_funcs = require('../../processes/initstore')
 const Discord = require("discord.js");
 const {logger} = require('../../logging/logger')
+const {warn_log,info_log} = require('../../logging/firebaselogging')
 
 module.exports = {
     name: 'spells',

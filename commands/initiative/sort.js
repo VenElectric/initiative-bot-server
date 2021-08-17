@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const {db} = require('../../processes/firebasesetup')
 const {logger} = require('../../logging/logger')
 const myredis = require("../../processes/redis-request");
-
+const {warn_log,info_log} = require('../../logging/firebaselogging')
 const cemoj = ":bow_and_arrow:"
 const bemoj = ":black_medium_square:"
 

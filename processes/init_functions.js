@@ -33,13 +33,11 @@ function sort_init(init_list, sorted) {
         // we want to only check values that are not init_list[i], so we check that against the unique ID of each record.
         // we don't use name, since there's a possibility that we could have similarly named characters.
         if (init_list[x].id !== init_list[i].id) {
+          console.log(init_list[x].id,init_list[i].id)
           console.log("init_list");
           // only add to dupes array if both the initiative and init_mod are the same. If the initiative is similar, but the init_mod is not, the sort later will handle that.
-          if (
-            init_list[x].initiative === init_list[i].initiative &&
-            init_list[x].init_mod === init_list[i].init_mod
-          ) {
-            console.log("Dupe Added", init_list[i]);
+          if ((Number(init_list[x].init) == Number(init_list[i].init)) && (Number(init_list[x].init_mod) == Number(init_list[i].init_mod))) {
+           
             dupes.push(init_list[i]);
             break;
           } else {

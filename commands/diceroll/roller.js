@@ -2,6 +2,7 @@ const {DiceRoll,DiceRoller} = require('rpg-dice-roller');
 const chalk = require('chalk');
 const Discord = require('discord.js');
 const {logger} = require('../../logging/logger')
+const {warn_log,info_log} = require('../../logging/firebaselogging')
 
 function parse_args(msg){
 	let reg = /^\d*([d|D])([0-9])+/
@@ -37,22 +38,33 @@ module.exports = {
 	description: 'Roll the dice!',
 	aliases: ['/r', 'r','r/'],
 	execute(message,args) {
-		console.log(args)
-		let parsed = parse_args(args)
-		console.log(parsed)
-		let comment = parsed.comment.trim()
-		let toroll = parsed.rollex
-			let myroll = new DiceRoll(toroll)
-		let finalroll = '```bash\n' + '"' + myroll + '"' + '```'
-		let finalcomment = '```ini\n' + '[' + comment + `]` + '```'
-		console.log(chalk.bgBlueBright(message.channel.id))
-		if (comment != '')
-		{
-			message.reply('Roll Results: ' + finalroll + finalcomment);
+		let session_id = message.channel.id
+		try{
+			let parsed = parse_args(args)
+		
+			let comment = parsed.comment.trim()
+			let toroll = parsed.rollex
+			let myroll = new DiceRoll(String(toroll))
+			let finalroll = '```bash\n' + '"' + myroll + '"' + '```'
+			let finalcomment = '```ini\n' + '[' + comment + `]` + '```'
+			
+			console.log(chalk.bgBlueBright(comment))
+			if (comment != '')
+			{
+				info_log(session_id,'roller command success',{roll:JSON.stringify(finalroll),comment:finalcomment})
+				message.reply('Roll Results: ' + finalroll + finalcomment);
+			}
+			else{
+				info_log(session_id,'roller command success',{roll:JSON.stringify(myroll)})
+				message.reply('Roll Results: ' + finalroll);
+			}
 		}
-		else{
-			message.reply('Roll Results: ' + finalroll);
+		catch(error){
+			console.warn(error)
+			// warn_log(messsage.channel.id,'roller command failed',{error:error,roll:myroll,comment:comment? comment:'no comment'})
+			message.reply('There was an error with the dice roll. Please try again with the correct dice format.')
 		}
+		
 		
 	},
 }

@@ -4,8 +4,8 @@ const {warn_log,info_log} = require('../../logging/firebaselogging')
 
 
 module.exports = {
-	name: 'getlink',
-	description: 'Get link for game session',
+	name: 'changeid',
+	description: 'Get the command to change the channel ID for initiative.',
 	async execute(message) {
 		let channel_id = message.channel.id
 		let session_id
@@ -15,20 +15,16 @@ module.exports = {
 			console.log(querySnapshot.empty)
 			if (!querySnapshot.empty){
 				session_id = querySnapshot.docs[0].id
+				message.reply('Use the following command in the channel you want to change your session to.')
+				message.channel.send(`changechannel ${session_id}`)
 				
 			}
 			if (querySnapshot.empty){
-				session_id = uuidv4()
-				db.collection('sessions').doc(session_id).set({channel_id:channel_id,ondeck:0,sorted:false}).then(()=> {
-					console.log('success')
-				}).catch((error)=> {
-					console.log(error)
-				})
-				
+				message.reply('No session has been started on this channel.')
 			}
 
-			let urlfin = 'https://dungeon-bot.app/?session_id=' + session_id
-			message.channel.send(urlfin);
+			
+			
 		})
 		.catch((error) => {
 			console.log("Error getting documents: ", error);

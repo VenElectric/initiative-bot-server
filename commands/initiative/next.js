@@ -2,12 +2,13 @@ const chalk = require("chalk");
 const { db } = require("../../processes/firebasesetup");
 const myredis = require("../../processes/redis-request");
 const {logger} = require('../../logging/logger')
+const {warn_log,info_log} = require('../../logging/firebaselogging')
 module.exports = {
 	name: "next",
 	description: "Move initiative forward.",
 	cooldown: 5,
 	async execute(message,io) {
-		var sessionid = message.channel.id;
+		let sessionid = message.channel.id;
 		let redis_data = await myredis.get_data(sessionid);
 		let total;
 		let current;
