@@ -11,3 +11,5 @@ firebase.json
 googlecred.txt
 .env
 /commands/devfolder
+combined.log
+error.log
