@@ -96,11 +96,12 @@ async function update_init(session_id, key, data) {
   let time_to_live;
   redisClient.ttl(key, (error, msg) => {
     if (error) {
-      warn_log(session_id, "TypeError at update init", JSON.stringify(error), {
+      info_log(session_id, "TypeError at update init", JSON.stringify(error), {
         stack: error.stack,
         key: key,
         data: data,
       });
+      time_to_live = 100
     }
     if (msg) {
       time_to_live = msg;
