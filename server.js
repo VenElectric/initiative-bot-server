@@ -13,6 +13,7 @@ const {warn_log,info_log} = require('./logging/firebaselogging')
 const init_p = require('./processes/initstore')
 const cemoj = ":bow_and_arrow:";
 const bemoj = ":black_medium_square:";
+const chalk = require('chalk')
 
 
 const io = require("socket.io")(server, { cors: {
@@ -98,6 +99,7 @@ try {
       }
       // if just a normal message or error, return. 
       catch(error){
+        info_log(message.channel.id,'error with message content',message.content)
         logger.info(error + ' error with message content: ' + message.content)
         return
       }
@@ -157,7 +159,7 @@ io.on('connection', socket => {
     let session_id = data.room
     let channel_id = data.channel_id
     let spell_list = await init_p.get_all(String(session_id),'spells')
-		
+		//use redis
 		let embed_fields = []
 
 		let spellembed = new Discord.MessageEmbed();
@@ -178,7 +180,7 @@ io.on('connection', socket => {
     let channel_id = data.channel_id
 
     let embedarray = await init_p.get_all(String(session_id),'initiative')
-		
+		//use redis
     let embed_fields = []
     let embed = new Discord.MessageEmbed();
   
@@ -223,7 +225,7 @@ io.on('connection', socket => {
     let room = data.room
     let _init_line = data.initiative
     let init_id = data.id
-    myredis.update_init(init_id,_init_line)
+    myredis.update_init(room,init_id,_init_line)
     // init_p.update_init(room,_init_line)
     logger.info(room,'server_update_init')
     logger.info(data.initiative,'server_update_init')
@@ -313,6 +315,30 @@ io.on('connection', socket => {
     let data_msg = data.data_msg
     let tracer = data.tracer
     logger.info(`SessionID: ${session_id} Message: ${data_msg} At: ${tracer}`)
+  })
+
+  socket.on('server_save',function(data){
+    let spells = data.spells
+    let init = data.init
+    let session_id = data.room
+    
+    let complete;
+   try{
+    for (let x = 0;x<init.length;x++){
+      init_p.update_init(session_id,init[x])
+    }
+    for (let y = 0;y<spells.length;y++){
+      init_p.update_spell(session_id,spells[y])
+    }
+    complete = true
+   }
+    
+   catch(error){
+     console.log(chalk.magenta(error))
+     warn_log(session_id,'Error updating all data',{spells:spells,init:init})
+     complete = false
+   }
+    socket.emit('save_complete',{complete:complete})
   })
 
 });

@@ -91,6 +91,10 @@ async function update_all(session_id, data) {
   }
 }
 
+async function check_ttl(session_id,key){
+
+}
+
 async function update_init(session_id, key, data) {
   console.log(key);
   let time_to_live;
@@ -110,6 +114,8 @@ async function update_init(session_id, key, data) {
 
   if (time_to_live <= 120) {
     console.log(time_to_live);
+    console.log(key)
+    console.log(data)
     redisClient.setex(key, def_exp, JSON.stringify(data));
     initstore.update_init(sessiond_id, data);
   }
