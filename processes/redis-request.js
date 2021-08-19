@@ -250,7 +250,6 @@ async function initialize_all_init(session_id,init){
   try{
     for (let x = 0;x<init.length;x++){
       await add_new_init(session_id,init[x])
-      console.log(chalk.red(init[x].name))
     }
   }
   catch(error){
