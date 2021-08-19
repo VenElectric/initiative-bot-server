@@ -5,6 +5,7 @@ const chalk = require("chalk");
 const {logger} = require('../logging/logger')
 
 function write_all(session_id, init_list,sorted,ondeck) {
+  console.log(session_id)
   let initRef = sessionRef.doc(session_id);
 
   initRef
@@ -20,6 +21,26 @@ function write_all(session_id, init_list,sorted,ondeck) {
     myref
       .set(
         init_list[x],
+        { merge: true }
+      )
+      .then(() => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+}
+
+function write_all_spells(session_id, spells) {
+  console.log(session_id)
+  let initRef = sessionRef.doc(session_id);
+
+  for (x in spells) {
+    let myref = initRef.collection("spells").doc(spells[x].id);
+    myref
+      .set(
+        spells[x],
         { merge: true }
       )
       .then(() => {
@@ -87,6 +108,7 @@ function add_init(session_id, init) {
 }
 
 function update_init(session_id, init) {
+  console.log(init.name)
   let initRef = sessionRef.doc(session_id);
   initRef
     .collection("initiative")
@@ -194,5 +216,6 @@ module.exports = {
   update_spell,
   remove_all_init,
   remove_all_spells,
-  get_initial
+  get_initial,
+  write_all_spells
 };

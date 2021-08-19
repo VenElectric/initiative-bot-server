@@ -28,12 +28,12 @@ function warn_log(session_id,warning,data){
             // console.log(res.status)
           })
           .catch(error => {
-            console.log('warn error')
+            console.trace('warn error',error)
           })
         
     }).catch(error => {
         // console.trace(error)
-        console.log('warn error')
+        console.trace('warn error',error)
     });
 }
 

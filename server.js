@@ -137,23 +137,6 @@ io.on('connection', socket => {
     socket.join(room);
     logger.info(room,'create room')
   });
-// deprecate?
-  // socket.on('round_start',function(data){
-  //   let room = data.session_id
-  //   // try{
-  //   //   myredis.initialize_redis(room)
-  //   // }
-  //   // catch(error){
-  //   //   console.log(error,'do nothing')
-  //   // }
-  //   logger.info('Round Start',room)
-  //   socket.broadcast.to(room).emit('client_roundstart',{sorted:true,ondeck:2,initiative:data.initiative})
-  // })
-  socket.on('get_all_init',function(data){
-    let room = data.room
-    let init_data = myredis.get_all_init(room)
-    logger.info(init_data)
-  })
 
   socket.on('server_show_spell',async function(data){
     let session_id = data.room
@@ -204,8 +187,9 @@ io.on('connection', socket => {
     let ondeck = data.ondeck
     logger.info(room)
     logger.info(data.initiative)
-    myredis.update_init(room,room,{data:{ondeck:ondeck,sort:sort},initiative:initiative})
-    socket.broadcast.to(room).emit('client_init',{sort:sort,initiative:initiative});
+    myredis.update_all(room,initiative)
+    myredis.update_initial(room,ondeck,sort)
+    socket.broadcast.to(room).emit('client_init',{ondeck:ondeck,sort:sort,initiative:initiative});
   })
   
   socket.on('server_add_init',function(data){
@@ -213,7 +197,6 @@ io.on('connection', socket => {
     let add_init_ = data.initiative
     let sort = data.sort
     myredis.add_new_init(room,data.initiative.id,add_init_)
-    let init_data = myredis.get_all_init(room)
     console.log(init_data)
     init_p.add_init(room,add_init_)
     logger.info(room,'server add init')
@@ -260,7 +243,7 @@ io.on('connection', socket => {
   socket.on('server_update_spell',function(data){
     let room = data.room
     let update_spell = data.spell 
-    myredis.update_spell(update_spell.id,update_spell)
+    myredis.update_spell(room,update_spell)
     // init_p.update_spell(room,update_spell)
     logger.info(room,'server_update_spell')
     logger.info(update_spell,'server_update_spell')
@@ -321,16 +304,14 @@ io.on('connection', socket => {
     let spells = data.spells
     let init = data.init
     let session_id = data.room
-    
+    let ondeck = data.ondeck
+    console.log(ondeck)
+    let sort = data.sort
     let complete;
    try{
-    for (let x = 0;x<init.length;x++){
-      init_p.update_init(session_id,init[x])
-    }
-    for (let y = 0;y<spells.length;y++){
-      init_p.update_spell(session_id,spells[y])
-    }
-    complete = true
+      init_p.write_all(session_id,init,sort,ondeck)
+      init_p.write_all_spells(session_id,spells)
+      complete = true
    }
     
    catch(error){
@@ -348,6 +329,11 @@ app.get('/dungeon-bot/api/init_list',async (req,res) => {
   logger.info(session_id)
   let init_list = await init_p.get_all(session_id,'initiative')
   let initial = await init_p.get_initial(session_id)
+  console.log(init_list[0].name)
+  setTimeout(()=> {
+    myredis.initialize_all_init(session_id,init_list)
+  },200)
+  
   res.status(200).send(JSON.stringify({init_list:init_list,initial:initial}))
 })
 
@@ -355,6 +341,9 @@ app.get('/dungeon-bot/api/spell_list',async (req,res) => {
   let session_id = req.query.session_id
   logger.info(session_id)
   let init_list = await init_p.get_all(session_id,'spells')
+  setTimeout(()=> {
+    myredis.initialize_all_spells(session_id,init_list)
+  },200)
   res.status(200).send(init_list)
 })
 
