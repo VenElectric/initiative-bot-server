@@ -161,7 +161,7 @@ io.on('connection', socket => {
   socket.on('server_show_init',async function(data){
     let session_id = data.room
     let channel_id = data.channel_id
-
+    console.log(channel_id)
     let embedarray = await init_p.get_all(String(session_id),'initiative')
 		//use redis
     let embed_fields = []
@@ -184,7 +184,8 @@ io.on('connection', socket => {
     let room = data.room
     let initiative = data.initiative
     let sort = data.sort
-    let ondeck = data.ondeck
+    let ondeck = Number(data.ondeck)
+    
     logger.info(room)
     logger.info(data.initiative)
     myredis.update_all(room,initiative)
@@ -304,8 +305,7 @@ io.on('connection', socket => {
     let spells = data.spells
     let init = data.init
     let session_id = data.room
-    let ondeck = data.ondeck
-    console.log(ondeck)
+    let ondeck = Number(data.ondeck)
     let sort = data.sort
     let complete;
    try{
