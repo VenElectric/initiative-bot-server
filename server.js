@@ -329,7 +329,6 @@ app.get('/dungeon-bot/api/init_list',async (req,res) => {
   logger.info(session_id)
   let init_list = await init_p.get_all(session_id,'initiative')
   let initial = await init_p.get_initial(session_id)
-  console.log(init_list[0].name)
   setTimeout(()=> {
     myredis.initialize_all_init(session_id,init_list)
   },200)
