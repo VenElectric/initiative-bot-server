@@ -36,7 +36,7 @@ function parse_args(msg){
 module.exports = {
 	name: 'roller',
 	description: 'Roll the dice!',
-	aliases: ['/r', 'r','r/'],
+	aliases: ['/r', 'r','r/','/R'],
 	execute(message,args) {
 		let session_id = message.channel.id
 		try{
