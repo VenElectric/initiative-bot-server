@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const sessionRef = db.collection("sessions");
 const chalk = require("chalk");
 const {logger} = require('../logging/logger')
-
+// add in warn loggin and info logging
 function write_all(session_id, init_list,sorted,ondeck) {
   console.log(session_id)
   let initRef = sessionRef.doc(session_id);
