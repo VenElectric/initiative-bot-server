@@ -16,40 +16,40 @@ const def_exp = 3600;
 const { logger } = require("../logging/logger");
 const { request } = require("express");
 
-async function pushpush(session_id,item){
-  try{
-    redisClient.rpush(session_id,item)
-  }
-  catch(error){
-    console.log(error)
-  }
+// async function pushpush(session_id,item){
+//   try{
+//     redisClient.rpush(session_id,item)
+//   }
+//   catch(error){
+//     console.log(error)
+//   }
   
-}
+// }
 
-async function test_rpush(projectkey) {
-  let init_promise = new Promise((resolve, reject) => {
-    redisClient.lrange(projectkey, 0, -1, (error, data) => {
-      if (error) {
-        warn_log(projectkey, "Error at get_lrange", {
-          error: error,
-          stack: error.stack,
-          projectkey: projectkey,
-        });
-        console.log(chalk.yellowBright(error))
-        reject(error)
-      }
-      if (data) {
-        console.log(data)
-        resolve(data)
-      }
-      if (data === null) {
-        resolve('data null')
-        //send request to server
-      }
-  })
-})
-return init_promise
-}
+// async function test_rpush(projectkey) {
+//   let init_promise = new Promise((resolve, reject) => {
+//     redisClient.lrange(projectkey, 0, -1, (error, data) => {
+//       if (error) {
+//         warn_log(projectkey, "Error at get_lrange", {
+//           error: error,
+//           stack: error.stack,
+//           projectkey: projectkey,
+//         });
+//         console.log(chalk.yellowBright(error))
+//         reject(error)
+//       }
+//       if (data) {
+//         console.log(data)
+//         resolve(data)
+//       }
+//       if (data === null) {
+//         resolve('data null')
+//         //send request to server
+//       }
+//   })
+// })
+// return init_promise
+// }
 
 redisClient.on("error", (error) => {
   console.log(error);
