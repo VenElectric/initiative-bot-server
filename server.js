@@ -4,7 +4,7 @@ const myredis = require('./processes/redis-request')
 const {sort_init} = require('./processes/init_functions')
 const http = require('http')
 require('firebase/firestore')
-require('dotenv').config()
+// require('dotenv').config()
 const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 8000
@@ -142,7 +142,7 @@ io.on('connection', socket => {
     let session_id = data.room
     let channel_id = data.channel_id
     let spell_list = await init_p.get_all(String(session_id),'spells')
-		//use redis
+		
 		let embed_fields = []
 
 		let spellembed = new Discord.MessageEmbed();
@@ -163,7 +163,7 @@ io.on('connection', socket => {
     let channel_id = data.channel_id
     console.log(channel_id)
     let embedarray = await init_p.get_all(String(session_id),'initiative')
-		//use redis
+		
     let embed_fields = []
     let embed = new Discord.MessageEmbed();
   
@@ -373,5 +373,6 @@ app.get('/dungeon-bot/api/roundstart',async (req,res) => {
 
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
+  console.debug(process.env.HOST_URL)
 });
 
