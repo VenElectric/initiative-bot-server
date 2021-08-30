@@ -59,7 +59,6 @@ async function get_all(session_id, collect) {
   let snapshot = await initRef.collection(collect).get();
 
   if (snapshot.docs !== undefined) {
-    console.trace("here");
     snapshot.forEach((doc) => {
       init_list.push({ id: doc.id, ...doc.data() });
     });
@@ -129,7 +128,7 @@ function delete_init(session_id, id) {
     .doc(id)
     .delete()
     .then(() => {
-      console.log("Success?");
+      console.log("success");
     })
     .catch((error) => {
       console.log(error);
