@@ -115,22 +115,6 @@ try {
 
 client.login(process.env.DEV_TOKEN);
 
-
-process.on('unhandledPromiseRejection', error => {
-  client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
-  
-});
-
-  process.on('invalidArgumentMessage', error => {
-    client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
-    
-  });
-
-  process.on('TypeError', error => {
-    client.channels.fetch('873769885652647948').then(channel=> channel.send(error))
-   
-  });
-
 io.on('connection', socket => {
   
   socket.on('create',function (room) {
